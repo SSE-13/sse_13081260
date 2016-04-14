@@ -66,17 +66,9 @@ class Body {
         //反弹
         if (this.y + this.height > BOUNDS_BOTTOM) {
             this.vy = -BOUNCE * this.vy;
-            this.y=300;
         }
 
         //TODO： 左右越界反弹
-        if (this.x + this.width > BOUNDS_RIGHT) {
-            this.vx = -BOUNCE * this.vx;
-        }
-        
-        if (this.x < BOUNDS_LEFT) {
-            this.vx = -BOUNCE * this.vx;
-        }
 
 
 
@@ -100,8 +92,8 @@ rect.color = '#FF0000';
 var body = new Body(rect);
 body.width = rect.width;
 body.height = rect.height;
-body.vx = 20;//需要保证 vx 在 0-50的范围内行为正常
-body.vy = 3;//需要保证 vy 在 0-50的范围内行为正常
+body.vx = 5;//需要保证 vx 在 0-50的范围内行为正常
+body.vy = 0;//需要保证 vy 在 0-50的范围内行为正常
 
 
 var renderCore = new RenderCore();
