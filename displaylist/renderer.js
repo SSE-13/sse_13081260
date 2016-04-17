@@ -10,8 +10,8 @@ var render;
     /**
      * 基类，负责处理x,y,rotation 等属性
      */
-    var DisplayObject = (function () {
-        function DisplayObject() {
+    var Displaylist = (function () {
+        function Displaylist() {
             this.x = 0;
             this.y = 0;
             this.scaleX = 1;
@@ -19,7 +19,7 @@ var render;
             this.rotation = 0;
             this.globalMatrix = new render.Matrix();
         }
-        DisplayObject.prototype.draw = function (context) {
+        Displaylist.prototype.draw = function (context) {
             var parent = this.parent;
             var angle = this.rotation / 180 * Math.PI;
             var skewX = angle;
@@ -37,30 +37,30 @@ var render;
             context.setTransform(this.globalMatrix.a, this.globalMatrix.b, this.globalMatrix.c, this.globalMatrix.d, this.globalMatrix.tx, this.globalMatrix.ty);
             this.render(context);
         };
-        DisplayObject.prototype.render = function (context) {
+        Displaylist.prototype.render = function (context) {
         };
-        return DisplayObject;
+        return Displaylist;
     }());
-    render.DisplayObject = DisplayObject;
-    var DisplayObjectContainer = (function (_super) {
-        __extends(DisplayObjectContainer, _super);
-        function DisplayObjectContainer() {
+    render.Displaylist = Displaylist;
+    var DisplaylistContainer = (function (_super) {
+        __extends(DisplaylistContainer, _super);
+        function DisplaylistContainer() {
             _super.call(this);
             this.children = [];
         }
-        DisplayObjectContainer.prototype.addChild = function (child) {
+        DisplaylistContainer.prototype.addChild = function (child) {
             this.children.push(child);
             child.parent = this;
         };
-        DisplayObjectContainer.prototype.render = function (context) {
+        DisplaylistContainer.prototype.render = function (context) {
             for (var i = 0; i < this.children.length; i++) {
                 var child = this.children[i];
                 child.draw(context);
             }
         };
-        return DisplayObjectContainer;
-    }(DisplayObject));
-    render.DisplayObjectContainer = DisplayObjectContainer;
+        return DisplaylistContainer;
+    }(Displaylist));
+    render.DisplaylistContainer = DisplaylistContainer;
     var Bitmap = (function (_super) {
         __extends(Bitmap, _super);
         function Bitmap() {
@@ -78,7 +78,7 @@ var render;
             }
         };
         return Bitmap;
-    }(DisplayObject));
+    }(Displaylist));
     render.Bitmap = Bitmap;
     var Rect = (function (_super) {
         __extends(Rect, _super);
@@ -93,7 +93,7 @@ var render;
             context.fillRect(0, 0, this.width, this.height);
         };
         return Rect;
-    }(DisplayObject));
+    }(Displaylist));
     var TextField = (function (_super) {
         __extends(TextField, _super);
         function TextField() {
@@ -105,7 +105,7 @@ var render;
             context.fillText('HelloWorld', 0, 20);
         };
         return TextField;
-    }(DisplayObject));
+    }(Displaylist));
     var imagePool = {};
     function loadResource(imageList, callback) {
         var count = 0;
